@@ -15,15 +15,10 @@ parser.add_argument('--user', required=True)
 parser.add_argument('--output_folder', default='.')
 args = parser.parse_args()
 
-# You need API credentials from Spotify:
-# Register your application on
-# https://developer.spotify.com/dashboard/
-# and add the Redirect URI http://localhost there
-
-# Then, the following should be set as env var externally or here:
-#os.environ['SPOTIPY_CLIENT_ID'] = '68f327323d80e916158346006acf84dc'
-#os.environ['SPOTIPY_CLIENT_SECRET'] = '97874a34904803ba316134b1a2270e03'
-#os.environ['SPOTIPY_REDIRECT_URI'] = 'http://localhost'
+REQ_ENV_VARS = ('SPOTIPY_CLIENT_ID', 'SPOTIPY_CLIENT_SECRET', 'SPOTIPY_REDIRECT_URI')
+if not all(env in os.environ for env in REQ_ENV_VARS):
+    parser.error('Please set all required environment variables:\n' +
+                 '\n'.join(REQ_ENV_VARS))
 
 ALL_SCOPES = [
     'ugc-image-upload',
